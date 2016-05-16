@@ -1,16 +1,28 @@
-*************************************************
+﻿*************************************************
 Creating 3D presentation with Blend4Web templates
 *************************************************
 
 Intro
 =====
 
-Each of us has to create presentation sometimes, in this case you oftenly use special editors like Powerpoint. However, techology doesn`t stand still and today you can create fully functional 3D web presentations. Unfortunately, only professional painters and programmers is able to do such a thing. We decide to simplify this hard task and make almost all routine for slide management automation in Blender, that is allows you concentrate on creation and fresh ideas. In current lesson we will show you how to work with "FILM" template, designed as a film strip. The template can be used for creating of interesting story for kid as well as for business presentation in unusual format.
+Each of us has to create presentation sometimes, in this case you oftenly use special editors like Powerpoint. However, techology doesn`t stand still and today you can create fully functional 3D web presentations. Unfortunately, only professional painters and programmers is able to do such a thing. We decide to simplify this hard task and make almost all routine for slide management automation in Blender, that is allows you concentrate on creation and fresh ideas. In current lesson we will show you how to work with "Slidefilm" template, designed as a film strip. The template can be used for creating of interesting story for kid as well as for business presentation in unusual format.
 
-How to use "FILM" template
+.. figure:: images/Fairy_tale_pic.png
+		:scale: 80 %
+		:align: center
+		:alt: Fairy tale "Crow and fox"
+		:target: _static/Басня.html _blank
+
+		Fig.1. Fairy tale "Crow and fox"
+
+		.. raw:: html 
+
+			<a href='B4W-temaplate-FILM-example1.html' target='_blank'>Открыть пример в отдельном окне</a>
+
+How to use "Slidefilm" template
 ===============================
 
-Proper use of the template demand last version of Blend4Web. Open "FILM" template file and click "Run scripts" button for appearing neccesary template`s buttons. You need to do it only once, next time file will be opened with buttons.
+Proper use of the template demand last version of Blend4Web. Open "Slidefilm" template file and click "Run scripts" button for appearing neccesary template`s buttons. You need to do it only once, next time file will be opened with buttons.
 
 .. image:: images/11.jpg
 
