@@ -11,13 +11,13 @@ Each of us has to create presentation sometimes, in this case you oftenly use sp
 		:scale: 80 %
 		:align: center
 		:alt: Fairy tale "Crow and fox"
-		:target: _static/Басня.html _blank
+		:target: B4W-template-FILM-example1.html 
 
 		Fig.1. Fairy tale "Crow and fox"
 
 		.. raw:: html 
 
-			<a href='B4W-temaplate-FILM-example1.html' target='_blank'>Открыть пример в отдельном окне</a>
+			<a href='B4W-template-FILM-example1.html' target='_blank'>Открыть пример в отдельном окне</a>
 
 How to use "Slidefilm" template
 ===============================
@@ -141,4 +141,4 @@ In the end, we get the full 3D web application with our presentation. Based on e
 
 Video lesson is available on youtube.com
 
-Download the template and a ready example of the presentation from GitHub at `<https://github.com/wantbook/3DSlides>` _ (distributed under the MIT open source license). Set of templates will be expend over time, allowing you to create not only a "film" presentation, but also magazines, art expositions and galleries.
+Download the template and a ready example of the presentation from GitHub at `<https://github.com/TriumphLLC/3DSlides>` _ (distributed under the MIT open source license). Set of templates will be expend over time, allowing you to create not only a "film" presentation, but also magazines, art expositions and galleries.
