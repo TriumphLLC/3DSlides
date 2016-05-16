@@ -11,13 +11,13 @@ Each of us has to create presentation sometimes, in this case you oftenly use sp
 		:scale: 80 %
 		:align: center
 		:alt: Fairy tale "Crow and fox"
-		:target: B4W-template-FILM-example1.html 
+		:target: http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1.html 
 
 		Fig.1. Fairy tale "Crow and fox"
 
 		.. raw:: html 
 
-			<a href='B4W-template-FILM-example1.html' target='_blank'>Открыть пример в отдельном окне</a>
+			<a href='http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1.html' target='_blank'>Открыть пример в отдельном окне</a>
 
 How to use "Slidefilm" template
 ===============================
