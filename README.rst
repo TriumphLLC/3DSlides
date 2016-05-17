@@ -9,7 +9,7 @@ Blend4Web (http://www.blend4web.com) is a tool for interactive 3D visualization 
 
 There are some simple templates in this freeware project wich you can use for development powerfull 3D web applications as:
 
-	* FILM for 3D demontration of fairy tails
-	* BOOK for histories and magazines
-	* SLIDES for business presentations
-	* SITE for 3D web sites
+* FILM for 3D demontration of fairy tails
+* BOOK for histories and magazines
+* SLIDES for business presentations
+* SITE for 3D web sites
