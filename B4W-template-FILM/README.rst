@@ -1,4 +1,4 @@
-Ôªø**************************************************
+**************************************************
 Creating 3D presentations with Blend4Web templates
 **************************************************
 
@@ -7,15 +7,15 @@ Intro
 
 We all have to create presentations at times. In these cases, you often use specific editors such as Powerpoint. However, technology moves forward and today it`s possible to create fully functional 3D web presentations. Unfortunately, this has been limited to only professional graphic artists and programmers. We decided to simplify this difficult task, and we did almost all the routine work for slide management automation in Blender, which allows you to concentrate on creativity and fresh ideas. In this lesson, we will show you how to work with the "FILM" template, designed as a filmstrip. The template can be used for creating interesting kids` stories as well as business presentations in a novel format.
 
-.. figure:: images/Fairy_tale_pic.png
+.. figure:: images/Fable-pic-en.png
 		:scale: 80 %
 		:align: center
-		:alt: Fig. 1 Fable "The crow and the fox"
-		:target: http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1.html 
+		:alt: Fig. 1 Fable "The Crow and the Fox"
+		:target: http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1-en.html 
 
-		Fig. 1 Fable "The crow and the fox"
+		Fig. 1 Fable "The Crow and the Fox"
 
-		`Open an examle <http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1.html>`_
+		`Open an examle <http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1-en.html>`_
 
 Working with the "FILM" template
 ================================
@@ -25,11 +25,11 @@ Proper use of the template requires the latest version of Blend4Web. Open the "F
 .. figure:: images/11.jpg
 		:scale: 80 %
 		:align: center
-		:alt: Fig. 2 Location of ‚ÄúRun scripts‚Äù button
+		:alt: Fig. 2 Location of ìRun scriptsî button
 
-		Fig. 2 Location of ‚ÄúRun scripts‚Äù button
+		Fig. 2 Location of ìRun scriptsî button
 
-Next, create a new scene by clicking the "Add slide" button; an automatically generated new scene will be added to a new slide. Camera animation for moving between scenes will be automatically generated as well. The navigation buttons ‚Äúplay‚Äù, ‚Äúleft‚Äù and ‚Äúright‚Äù to interact with a scene in the blend4web application are also created. A logic tree will be automatically generated depending on the number of new slides added.
+Next, create a new scene by clicking the "Add slide" button; an automatically generated new scene will be added to a new slide. Camera animation for moving between scenes will be automatically generated as well. The navigation buttons ìplayî, ìleftî and ìrightî to interact with a scene in the blend4web application are also created. A logic tree will be automatically generated depending on the number of new slides added.
 
 If you open a list of scenes in the top toolbar, then you can see new scenes. By clicking on them, you can switch from scene to scene depending on what future actions are required. For example, we have added low-poly decoration sets and two characters of the well-known fable about the crow and the fox. There is minimum camera animation in each scene. You can use our template to build a completely new story, which already includes the appropriate frame and prepared logic. In essence, our template is a quick tool for creating a beautiful and at the same time lightweight 3D presentation, which you can send to anyone. The receiver will be able to open and view it in a browser without plug-ins.
 
@@ -121,7 +121,7 @@ Copying objects with offsets is done by using the following function::
 
 	bpy.ops.object.empty_add(type='PLAIN_AXES', radius=2, view_align=False, location=(obj.location[0],obj.location[1],obj.location[2] ))
 
-We need two ‚ÄúEmpty‚Äù objects, the first in the center of the slide object, the second is placed at a distance of 3.2 on the X-axis from the center of the slide object.
+We need two ìEmptyî objects, the first in the center of the slide object, the second is placed at a distance of 3.2 on the X-axis from the center of the slide object.
 
 Creating a sub-scene can be carried out using the following function::
 
@@ -133,7 +133,7 @@ We can do this by copying the texture and material of the original slide (to inh
 
 	new_material = bpy.data.materials['material name'].copy()
 
-	cTex = bpy.data.textures[‚Äòtexture name‚Äô].copy()
+	cTex = bpy.data.textures[ëtexture nameí].copy()
 
 2) Creating logic trees
 -----------------------
@@ -184,7 +184,7 @@ animation keys, three on each slide, will be added to the camera.
 In conclusion
 =============
 
-In the end, we get a complete 3D web application with our presentation. Based on executed work we can conclude that the creation of a complete 3D presentation ‚Äì is not such a complicated process and is available to wide range of passionate enthusiasts.
+In the end, we get a complete 3D web application with our presentation. Based on executed work we can conclude that the creation of a complete 3D presentation ñ is not such a complicated process and is available to wide range of passionate enthusiasts.
 
 A video lesson is available on youtube.com
 
