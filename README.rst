@@ -22,7 +22,7 @@ Social channels:
 * https://www.instagram.com/threedslides/ - Instagram
 * https://twitter.com/3DSlides - Twitter
 
-Russial social channels:
+Russian social channels:
 
 * https://www.youtube.com/channel/UCsSQ6EH6MyZ-JWCnZWvHpxQ - Youtube
 * https://www.facebook.com/3DSlides.ru/ - Facebook
