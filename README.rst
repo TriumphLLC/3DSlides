@@ -13,3 +13,17 @@ There are some simple templates in this freeware project for powerfull 3D web ap
 * BOOK for stories and magazines
 * SLIDES for business presentations
 * SITE for 3D web sites
+
+Social channels:
+https://www.youtube.com/channel/UCH_LENkAgOuFT7S2a_7K4JA - Youtube
+https://www.facebook.com/3DSlides-924682874326550 - Facebook
+https://plus.google.com/u/2/b/117454914644237938368 - Google+ 
+https://www.instagram.com/threedslides/ - Instagram
+https://twitter.com/3DSlides - Twitter
+
+Russial social channels:
+https://www.youtube.com/channel/UCsSQ6EH6MyZ-JWCnZWvHpxQ - Youtube
+https://www.facebook.com/3DSlides.ru/ - Facebook
+https://plus.google.com/u/2/b/117977302984822623849 - Google+
+https://www.instagram.com/threedslides_rus/ - Instagram
+https://twitter.com/3DSlides_rus - Twitter
