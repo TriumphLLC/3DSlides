@@ -15,7 +15,7 @@ We all have to create presentations at times. In these cases, you often use spec
 
 		Fig. 1 Fable "The Crow and the Fox"
 
-		`Open an examle <http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1-en.html>`_
+		`Open an example <http://triumphllc.github.io/3DSlides/B4W-template-FILM/B4W-template-FILM-example1-en.html>`_
 
 Working with the "FILM" template
 ================================
