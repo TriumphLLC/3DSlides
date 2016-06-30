@@ -186,6 +186,6 @@ In conclusion
 
 In the end, we get a complete 3D web application with our presentation. Based on executed work we can conclude that the creation of a complete 3D presentation – is not such a complicated process and is available to wide range of passionate enthusiasts.
 
-A video lesson is available on youtube.com
+A video lesson is available on youtube.com https://www.youtube.com/watch?v=70xg-u-wYIo
 
 Download the template and a prepared example of the presentation from GitHub at https://github.com/TriumphLLC/3DSlides/archive/gh-pages.zip (distributed under the MIT open source license). A set of templates will be expanded over time, allowing you to create not only a "film" presentation, but also magazines, art expositions and galleries.
