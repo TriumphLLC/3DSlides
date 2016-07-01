@@ -104,7 +104,7 @@ AddSlideClass is used to create slides and service objects
 
 By default, the template already includes the initial slide
 
-.. figure:: images/111.gif
+.. figure:: images/111.jpg
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 9 Template with initial slide
