@@ -12,6 +12,7 @@ There are some simple templates in this freeware project for powerfull 3D web ap
 * FILM for 3D demonstration of fairy tails
 * BOOK for stories and magazines
 * SLIDES for business presentations
+* SHOWCASE for intenet shops
 * SITE for 3D web sites
 
 Social channels:
