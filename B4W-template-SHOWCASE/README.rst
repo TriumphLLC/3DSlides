@@ -13,11 +13,11 @@ The main feature of this template is that the artist can set up a showcase and m
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 1 Showcase of "Fit Fresh"
-		:target: http://triumphllc.github.io/3DSlides/B4W-template-SHOWCASE/B4W-template-SHOWCASE/example1-en.html 
+		:target: http://triumphllc.github.io/3DSlides/B4W-template-SHOWCASE/B4W-template-SHOWCASE-example1-en.html 
 
 		Fig. 1 Showcase of "Fit Fresh"
 
-		`Open an example <http://triumphllc.github.io/3DSlides/B4W-template-SHOWCASE/B4W-template-SHOWCASE/example1-en.html>`_
+		`Open an example <http://triumphllc.github.io/3DSlides/B4W-template-SHOWCASE/B4W-template-SHOWCASE-example1-en.html>`_
 
 Working with the "SHOWCASE" template
 ====================================
