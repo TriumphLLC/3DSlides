@@ -27,11 +27,10 @@ To correctly use this template you need the latest version of Blend4Web. Upon op
 Note, there a two scenes in our file. The first (Library) consists of the matrix of objects, and the second (Showcase) is the main scene.
 
 .. image:: images/2.jpg
-		:scale: 80 %
-		:align: center
-		:alt: Fig. 2 Library scene
+   :align: center
+   :alt: Fig. 2 Library scene
 
-		Fig. 2 Library scene
+   Fig. 2 Library scene
 
 If we select Library in the list of scenes, then a scene containing standard cupboards, showcase and products will open, here is where you need to add the cupboard design, new showcase or product model you want to use in the template. Let`s return to the Showcase scene (showcase compiler) 
 
