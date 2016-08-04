@@ -214,4 +214,6 @@ Merchandizers can evaluate ahead of time how a product will look on a shelf in o
 
 A 3D space of solutions is opened to customers which allows them to see a product with their own eyes without entering a store and even without getting off the couch. An interactive showcase attracts attention to a store sparking a chain reaction of a crowd and an online order system allows us to reach people who know exactly what they need and who value their time.
 
+A video lesson is available on youtube.com https://www.youtube.com/watch?v=LRHNVlaIcqc
+
 Download the template and a prepared example of the presentation from GitHub at https://github.com/TriumphLLC/3DSlides/archive/gh-pages.zip (distributed under the MIT open source license). A set of templates will be expanded over time, allowing you to create not only a "film" and "showcase" presentation, but also magazines, art expositions and galleries.
