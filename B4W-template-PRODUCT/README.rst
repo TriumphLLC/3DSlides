@@ -7,7 +7,7 @@ A live demonstration of a product always allows customers to look at a purchase 
 
 The main feature of the template is possibility for ordinary artist to configure sets of options in the Blender editor, match price options and get a web application in one click. This kind of application can be connected to your own site or online store in the Wantenger.com cloud.
 
-.. image:: images/1.png
+.. image:: images/01.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 1 Showcase of "Fit Fresh"
@@ -22,7 +22,7 @@ Working with the "PRODUCT" template
 
 To correctly use this template you need the latest version of Blend4Web. Upon opening the “PRODUCT” template file, select conf.py from the list of template files and click “Run Script”.
 
-.. image:: images/2.png
+.. image:: images/02.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 2 Configurator panel
@@ -31,7 +31,7 @@ Fig. 2 Configurator panel
 
 In the panel “Configurator” that appears click “Elements” to open a list of sections. To add a section to the list click “Add” in the list. Every section is designed to keep the same kinds of options (for example, heels for footwear, doors for vehicles or materials out of leather). Sections can be of two types – object or material. An object section is created by default. In order to change the section type, click the settings button (hamburger button) of the needed section and in the menu that appears check the “is material” checkbox. Visually, in the list of sections, sections of different types have different icons.
 
-.. image:: images/3.png
+.. image:: images/03.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 3 List of sections
@@ -42,7 +42,7 @@ In order to rename a section, you need to select Rename in the drop down menu fr
 In order to delete a section, you need to select Delete in the drop down menu from the section menu (hamburger button).
 In order to move the location of a section in the section list, in the drop down menu from the section menu (hamburger button), you need to select Move top to move it to the first position, Move up to move it up, Move down to move it down or Move bottom to move it to the lower position.
 
-.. image:: images/4.png
+.. image:: images/04.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 4 Section menu
@@ -53,7 +53,7 @@ Objects and materials can be created in section or added to it.
 
 In order to create a new element of a section, enter the section and click Add. A new object will appear in the element list of the section and in the 3D editor a unit cube will appear. If the section contains materials, to add material assign it to the appeared cube. If the section contains objects, the unit cube will need to be turned into an object.
 
-.. image:: images/5.png
+.. image:: images/05.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 5 Element list
@@ -64,7 +64,7 @@ In order to add a new element of a section, load an object from a blend project 
 
 In order to move elements from section to section you need to select an element in the element list of a section, left click on the object when it appears in the 3D editor and select a new section in the appeared list.
 
-.. image:: images/6.png
+.. image:: images/06.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 6 Dropdown list of sections
@@ -75,7 +75,7 @@ Deleting an element from a section is done the same way as when moving elements 
 
 To rename an element you need to select the element and enter the new name in the field found on the Configurator panel above the Json Editor buttons.
 
-.. image:: images/7.png
+.. image:: images/07.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 7 Renaming objects and sections
@@ -86,7 +86,7 @@ An important element of a template is the possibility to configure the compatibi
 
 To configure the compatibility of an element you need to click the hamburger button of the element. Then, the list of sections will open and by entering the sections and checking or unchecking the checkbox of the elements of these sections indicate the compatibility of the configurable element with others.
 
-.. image:: images/8.png
+.. image:: images/08.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 8 Configuration of compatibility
@@ -113,7 +113,7 @@ Fig. 10 Configurator preview
 
 Also, after clicking the Preview button, a conf.json file that contains the matrix of element compatibility will be added to the file list. 
 
-.. image:: images/9.png
+.. image:: images/09.png
 		:scale: 80 %
 		:align: center
 		:alt: Fig. 11 conf.json
