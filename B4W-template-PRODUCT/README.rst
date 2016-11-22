@@ -2,7 +2,9 @@
 Creating a product configurator with the Blend4Web template PRODUCT
 ********************************************************************
 
-Intro 
+Intro
+=====
+
 A live demonstration of a product always allows customers to look at a purchase from all sides: try on, play with, combine options. Without enough information it’s difficult to a customer to make a decision about purchasing products. However, with a 3D configurable model of a product everything becomes more interesting. The Blend4Web “PRODUCT” template allows you to create spectacular product displays, fill them with various optional details, sets of materials for various surfaces.
 
 The main feature of the template is possibility for ordinary artist to configure sets of options in the Blender editor, match price options and get a web application in one click. This kind of application can be connected to your own site or online store in the Wantenger.com cloud.
@@ -29,7 +31,7 @@ To correctly use this template you need the latest version of Blend4Web. Upon op
 
 Fig. 2 Configurator panel
 
-In the panel “Configurator” that appears click “Elements” to open a list of sections. To add a section to the list click “Add” in the list. Every section is designed to keep the same kinds of options (for example, heels for footwear, doors for vehicles or materials out of leather). Sections can be of two types – object or material. An object section is created by default. In order to change the section type, click the settings button (hamburger button) of the needed section and in the menu that appears check the “is material” checkbox. Visually, in the list of sections, sections of different types have different icons.
+In the panel “Template Product” that appears click “Elements” to open a list of sections. To add a section to the list click “Add” in the list. Every section is designed to keep the same kinds of options (for example, heels for footwear, doors for vehicles or materials out of leather). Sections can be of two types – object or material. An object section is created by default. In order to change the section type, click the settings button (hamburger button) of the needed section and in the menu that appears check the “is material” checkbox. Visually, in the list of sections, sections of different types have different icons.
 
 .. image:: images/03.png
 		:scale: 80 %
@@ -102,7 +104,7 @@ Having configured the compatibility of elements you can show prices for all comp
 
 Fig. 9 prices.json
 
-You can view your resulting application by pressing “Preview”. Your default browser will then open an html page that contains your application with your objects and materials. In the application interface objects and materials incompatible with the current options will be inactive. To change an object within a section, just click the desired object. To change applied material to an object hover over the object’s tile and select “Change” in the appearing menu. A list of materials will open from which you select the desired material.
+You can view your resulting application by pressing “Preview”. Your default browser will then open an html page that contains your application with your objects and materials. In the application interface objects and materials incompatible with the current options will be inactive. To change an object within a section, just click the desired object. To change applied material to an object hover over the object’s tile and select “Edit” in the appearing menu. A list of materials will open from which you select the desired material.
 
 .. image:: images/11.png
 		:scale: 80 %
@@ -136,7 +138,7 @@ When clicking the Export to Wantenger button, objects are renamed in a format co
 Linking to your Wantenger.com online store
 ==========================================
 
-After preparing your product configurator with the help of the Blend4Web template you can link it to your online store, for example in Wantenger.com.
+After preparing your product configurator with the help of the Blend4Web template you can link it to your online store, for example in `Wantenger.com <http://wantenger.com>`_.
 
 .. image:: images/13_en.png
 		:scale: 80 %
@@ -154,7 +156,7 @@ First, create an archive file with your product configurator. In order to do thi
 
 Fig. 14 Export and archive
 
-Next, log in to your Wantenger account and go to the “Websites” tool. Create a site with the "Showcase" application if you don`t already have one. Go to the "Showroom" section of the site, create a section and add a room to it. After that choose the created room and move to 3D model selection. Click “Upload” above the opened editor and select the archived file with your product configurator.
+Next, log in to your Wantenger account and go to the “Websites” tool. Create a site with the "Showcase" application if you don`t already have one. Go to the "Showcase" section of the site, create a section and add a room to it. After that choose the created room and move to 3D model selection. Click “Upload” above the opened editor and select the archived file with your product configurator.
 
 .. image:: images/15.png
 		:scale: 80 %
@@ -179,4 +181,6 @@ Conclusion
 
 As a result, this template allows us to create a 3D web-application showing a product in the best light and link it to the order processing system, practically creating a fully-functional 3D product card for vehicles, clothes and footwear, furniture and interior items from scratch. This kind of card is not simply a frozen frame but a complete game for customers. In such a game everyone can set his own combinations of options while considering personal preferences and get a personalized offer.
 
-Download the template and a prepared example of the presentation from GitHub at https://github.com/TriumphLLC/3DSlides/archive/gh-pages.zip (distributed under the MIT open source license). A set of templates will be expanded over time, allowing you to create not only a "film", "showcase" and "product" presentation, but also magazines, art expositions and galleries.
+A video lesson is available on youtube.com https://youtu.be/76CnZu8mt9E
+
+Download the template and a prepared example of the configurator from GitHub at https://github.com/TriumphLLC/3DSlides/archive/gh-pages.zip (distributed under the MIT open source license). A set of templates will be expanded over time, allowing you to create not only a "film", "showcase" and "product" presentation, but also magazines, art expositions and galleries.
