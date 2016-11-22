@@ -78,9 +78,9 @@ To rename an element you need to select the element and enter the new name in th
 .. image:: images/07.png
 		:scale: 80 %
 		:align: center
-		:alt: Fig. 7 Renaming objects and sections
+		:alt: Fig. 7 Renaming of object
 
-Fig. 7 Renaming objects and sections
+Fig. 7 Renaming of object
 
 An important element of a template is the possibility to configure the compatibility of objects and materials with each other, for example, to indicate that only these insoles and these materials match this heel or that a convertible top is only available for certain vehicle body types.
 
@@ -131,7 +131,7 @@ Fig. 12 Auto-generating icons of elements
 
 To avoid overloading a scene with created or uploaded objects we added a “Hide all elements” button that hides all currently active objects in a 3D scene. The objects themselves are not deleted and can be activated through the element list of sections.
 
-When clicking the Export to Wantenger button, objects are renamed in a format compatible to Wantenger and a window opens for exporting in the Blend4web (.json) Blender format.
+When clicking the Export to Wantenger button, objects are renamed in a format compatible to Wantenger and a window opens for exporting in the Blend4Web (.json) Blender format.
 
 Linking to your Wantenger.com online store
 ==========================================

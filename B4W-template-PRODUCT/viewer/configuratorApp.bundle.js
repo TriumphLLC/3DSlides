@@ -2,7 +2,6 @@
 
   /**
    * @name configuratorApp
-   * @author tsyganov.andrey@triumph.msk.ru (113)
    * @description 
    * Ru Модуль конфигуратор 3д предметов.
    * En Module configurator 3d items.
@@ -127,9 +126,6 @@
      * @param {Object <configuratorSection>} parent Родительская секция (Секция к которой принадлежит экземпляр).
      */
     function _Object3d (data, parent) {
-
-      console.log('_Object3d',data);
-
       this.data       = data;
       this.name       = data.name;
       this.title      = data.title;
@@ -903,22 +899,6 @@
       autoresize: true
     };
 
-    $scope.$watch('showPreloader', function(newValue, oldValue) {
-
-
-    if(typeof(oldValue) != "undefined") {
-
-      if(!newValue) {
-             var delaultObjects = configuratorObject3d.getAllPicked();
-      
-      b4wCanvas.showDefault(delaultObjects);
-      }
- 
-    //  b4wCanvas.m_container.resize_to_container()
-
-    }
-    });
-
     this.getConfPath = function () {
       var path = '/userdata/' + b4wCanvas.oid + '/sites/' + b4wCanvas.siteId + '/conf.json';
       return path;
@@ -929,96 +909,65 @@
      * |En| Initialization of scope drawing 3d application.
      * |Ru| Инициализация области отрисовки 3д-приложения.
      */
-       this.init = function () {
+    this.init = function () {
       this.m_app.init(angular.extend(this.initConfig, {
         callback: function (canvasElement) {
-          b4wCanvas.load()
-          .then(function () {
-
-            /**
-             * Получаем данные о 3д-объектах и создаём секции.
-             */
-            $http.get('conf.json').then(function (response) {
-              this.export_wantenger = response.data.export_wantenger; 
-              this.setSections(response.data.items);
-            }.bind(this));
+          /**
+           * Получаем данные о 3д-объектах и создаём секции.
+           */
+          $http.get('conf.json').then(function (response) {
+            this.export_wantenger = response.data.export_wantenger; 
+            var _sections = this.setSections(response.data.items);
           }.bind(this))
           .then(function () {
-
-            b4wCanvas.setCanvasElement(canvasElement);
-            /**
-             * Запускаем механизм создания скриншотов для превью изображений.
-             */
-
-          }.bind(this))
-          .then(function () {
-
-            /**
-             * Назначаем имена материалов и стоимость для всех доступных объектов.
-             */
-            $timeout(function() {
+            b4wCanvas.load()
+            .then(function () {
+              b4wCanvas.setCanvasElement(canvasElement);
+            }.bind(this))
+            .then(function () {
+              /**
+               * Назначаем имена материалов и стоимость для всех доступных объектов.
+               */
               var all = configuratorObject3d.getByType('');
               all.forEach(function (_object) {
                 _object.setMaterialName();
                 _object.setPrice();
               });
-            }, 100);
-          }.bind(this))
-          .then(function () {
-            /**
-             * Делаем видимыми объекты и запускаем слушатель клика по 3д-объектам.
-             */
-            $timeout(function () {
+            }.bind(this))
+            .then(function () {
+              /**
+               * Делаем видимыми объекты и запускаем слушатель клика по 3д-объектам.
+               */
               var delaultObjects = configuratorObject3d.getAllPicked();
               priceService.summarize(delaultObjects);
               b4wCanvas.showDefault(delaultObjects);
               b4wCanvas.hideDefault(delaultObjects);
-             
               this.listenerActivation(canvasElement);
-            }.bind(this), 100);
-          }.bind(this)).then(function () { 
-
-              // var request2 = $timeout(function(){ return {type: 'obj2'}; });
-
-            var deferred = $q.defer();  
-
-
-
-            $timeout(function () {
-
+            }.bind(this)).then(function () {
+              var deferred = $q.defer();  
               var materials = configuratorObject3d.getByType('material');
-              //this.startPreloder(materials.length+13);
-              this.startPreloder(1);
-              console.log('materials',materials)
-
-              // materials.forEach(function (_object, key) {
-              //   if(!_object.user_image) {
-              //   _object.getPreviewImg(key + 10);
-              //   }
-              // });
+              this.startPreloder(4);
 
               var objects = configuratorObject3d.getByTypeFilter('material');
-
-              console.log('objects',objects)
               var baseObject = objects.filter(function(e) {
-                return e.name == "base"
-              })[0]
+                return e.name == "base";
+              })[0];
 
-              //   objects.forEach(function (_object, key) {
-              //     if(!_object.user_image) {
-              //   _object.getPreviewImgObjects(baseObject,key + 1);
-              //     }
-              // });
+              $scope.$watch('showPreloader', function(newValue, oldValue) {
+                if(typeof(oldValue) != "undefined") {
+                  if(newValue === false) {
+                    var delaultObjects = configuratorObject3d.getAllPicked();
+                    b4wCanvas.showDefault(delaultObjects);
+                  }
+                }
+              });
 
-                  deferred.resolve();
+              deferred.resolve();
 
-            }.bind(this), 300)
+              return deferred.promise;
 
-
-           
-             return deferred.promise;
-
-          }.bind(this));
+            }.bind(this));
+          }.bind(this))
         }.bind(this)
       }));
     };
@@ -1030,7 +979,7 @@
      * @param {Array} mainData
      */
     this.setSections = function (dataOfSections) {
-      dataOfSections.map(function (_section) {
+      return dataOfSections.map(function (_section) {
         return new configuratorSection(_section);
       });
     };
