@@ -156,7 +156,7 @@ First, create an archive file with your product configurator. In order to do thi
 
 Fig. 14 Export and archive
 
-Next, log in to your Wantenger account and go to the “Websites” tool. Create a site with the "Showcase" application if you don`t already have one. Go to the "Showcase" section of the site, create a section and add a room to it. After that choose the created room and move to 3D model selection. Click “Upload” above the opened editor and select the archived file with your product configurator.
+Next, log in to your Wantenger account and go to the “Websites” tool. Create a site with the "Showcase" application if you don't already have one. Go to the "Showcase" section of the site, create a section and add a room to it. After that choose the created room and move to 3D model selection. Click “Upload” above the opened editor and select the archived file with your product configurator.
 
 .. image:: images/15.png
 		:scale: 80 %
