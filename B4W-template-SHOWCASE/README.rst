@@ -32,7 +32,7 @@ Note, there a two scenes in our file. The first (Library) consists of the matrix
 
 Fig. 2 Library scene
 
-If we select Library in the list of scenes, then a scene containing standard cupboards, showcase and products will open, here is where you need to add the cupboard design, new showcase or product model you want to use in the template. Let`s return to the Showcase scene (showcase compiler) 
+If we select Library in the list of scenes, then a scene containing standard cupboards, showcase and products will open, here is where you need to add the cupboard design, new showcase or product model you want to use in the template. Let's return to the Showcase scene (showcase compiler) 
 
 .. image:: images/3.jpg
 		:scale: 80 %
@@ -122,7 +122,7 @@ A "View source" button redirects us in Library and center camera on object`s pro
 
 Fig. 10 Edit markup line
 
-User`s markup line must be with the (1;1;1) Scale for the template work correct.
+User's markup line must be with the (1;1;1) Scale for the template work correct.
 
 Choose a markup line, in the left menu select a number of points, click “Split curve” and points will be added on the line automatically on the same distance one by one.
 
