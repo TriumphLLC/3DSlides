@@ -1,0 +1,4 @@
+ Blend4web template 'Product' is developed by Truimph LLC company ©,
+ distributed under the MIT open source license 
+ and available on https://github.com/TriumphLLC/3DSlides
+ This template requires blender 2.78 and Blend4Web 16.10

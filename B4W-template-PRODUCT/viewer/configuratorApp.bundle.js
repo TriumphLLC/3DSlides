@@ -2,6 +2,7 @@
 
   /**
    * @name configuratorApp
+   * @author tsyganov.andrey@triumph.msk.ru (113)
    * @description 
    * Ru Модуль конфигуратор 3д предметов.
    * En Module configurator 3d items.
@@ -431,6 +432,38 @@
     this.m_material  = b4w.require('material');
     this.m_trans     = b4w.require('transform');
 
+    this.camera_info = {}
+    this.camera_info_origin = {}
+
+   
+
+    this.saveCameraPosition = function() {
+      var cam = this.m_scenes.get_active_camera();
+      this.camera_info.pos =  this.m_trans.get_translation(cam)
+      this.camera_info.pivot =  this.m_camera.target_get_pivot(cam)
+
+
+    }
+
+
+    this.saveCameraPositionOrigin = function() {
+      var cam = this.m_scenes.get_active_camera();
+      this.camera_info_origin.pos =  this.m_trans.get_translation(cam)
+      this.camera_info_origin.pivot =  this.m_camera.target_get_pivot(cam)
+    }
+    this.restoreCameraPosition = function() {
+       var cam = this.m_scenes.get_active_camera();
+      this.m_camera.target_set_trans_pivot(cam,this.camera_info.pos,this.camera_info.pivot)
+
+      
+    }
+
+    this.restoreOriginCameraPosition = function() {
+       var cam = this.m_scenes.get_active_camera();
+       this.m_camera.target_set_trans_pivot(cam,this.camera_info_origin.pos,this.camera_info_origin.pivot)
+      
+    }
+
     /**
      * @description 
      * |En| Getting path on json of 3d-model and decoding url.
@@ -649,10 +682,11 @@
       var _object = this.m_scenes.get_object_by_name(objectInst.name);
       this.m_trans.set_scale(_object, 10);
 
+     
       setTimeout(function () {
         this.m_scenes.show_object(_object);
         setTimeout(function () {
-
+           this.restoreOriginCameraPosition()
             var cb = function(data) {
 
             objectInst.img = data
@@ -665,7 +699,7 @@
           }.bind(this), 300);
         }.bind(this), 200);
       }.bind(this), timeout*1000/2);
-
+       
       };  
 
     b4wCanvas.prototype.cameraControlOff = function () {
@@ -928,6 +962,8 @@
               /**
                * Назначаем имена материалов и стоимость для всех доступных объектов.
                */
+
+             
               var all = configuratorObject3d.getByType('');
               all.forEach(function (_object) {
                 _object.setMaterialName();
@@ -938,12 +974,14 @@
               /**
                * Делаем видимыми объекты и запускаем слушатель клика по 3д-объектам.
                */
+
               var delaultObjects = configuratorObject3d.getAllPicked();
               priceService.summarize(delaultObjects);
               b4wCanvas.showDefault(delaultObjects);
               b4wCanvas.hideDefault(delaultObjects);
               this.listenerActivation(canvasElement);
             }.bind(this)).then(function () {
+               b4wCanvas.saveCameraPositionOrigin()  
               var deferred = $q.defer();  
               var materials = configuratorObject3d.getByType('material');
               this.startPreloder(4);
@@ -958,6 +996,7 @@
                   if(newValue === false) {
                     var delaultObjects = configuratorObject3d.getAllPicked();
                     b4wCanvas.showDefault(delaultObjects);
+                    b4wCanvas.restoreCameraPosition()
                   }
                 }
               });
@@ -1126,7 +1165,7 @@
   function configuratorZipModeController ($http,$scope, $rootScope, targetOfEdit, configuratorSection, b4wCanvas, priceService,configuratorObject3d) {
 
     $scope.downloadClick = function() {
-      console.log('downloadClick')
+     
 
     
   
@@ -1136,7 +1175,7 @@
      
       var zip = new JSZip();
 
-      console.log('objectsAll',objectsAll)
+     
 
       var _object1 = objectsAll[0];
       var _object2 = objectsAll[1];
@@ -1251,7 +1290,7 @@
       cnvs.style.width = '100px';
       cnvs.style.height = '100px';
       
-      console.log('cnvs',cnvs)
+     
 
       var _this = this;
        $timeout(function () {
@@ -1262,9 +1301,13 @@
       var materials = configuratorObject3d.getByType('material');
       _this.startPreloder(materials.length+13);
       
-      console.log('materials',materials)
+     
+
+      b4wCanvas.saveCameraPosition()
 
       materials.forEach(function (_object, key) {
+
+
        // if(!_object.user_image) {
         _object.getPreviewImg(key + 10);
         //}
@@ -1272,7 +1315,7 @@
 
       var objects = configuratorObject3d.getByTypeFilter('material');
 
-      console.log('objects',objects)
+    
       var baseObject = objects.filter(function(e) {
         return e.name == "base"
       })[0]
@@ -1352,7 +1395,7 @@
     };
 
       this.download = function (object3d) {
-      console.log('object3d',object3d)
+     
         download(object3d.img, object3d.name+".png",  "image/png");
 
     };

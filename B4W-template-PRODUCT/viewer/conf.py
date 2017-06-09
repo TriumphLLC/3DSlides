@@ -14,6 +14,8 @@ import collections
 import json
 import blend4web.server as server
 import blend4web.exporter as exporter
+import blend4web
+
 import codecs
 from os.path import basename, exists, join, normpath, relpath, abspath, split, isabs
 from bpy.props import (StringProperty,
@@ -62,6 +64,7 @@ rows = 1
 tmp_mas = []
 current_dir_content = []
 current_item = {}
+current_folder = {}
 redrawFlag = False
 export_url = ""
 bl_info = {
@@ -104,7 +107,23 @@ size=3
 )
 bpy.types.Object.select_all = bpy.props.BoolProperty(name="Select_all")
 
-bpy.types.Object.title = bpy.props.StringProperty(name="", default = "object_name")
+
+def update(obj, context):
+	global current_item,current_folder
+
+	
+
+	
+	
+	if(not current_item['isFolder']):
+		JsonManagerMenu.browse_assets(JsonManagerMenu,current_folder)
+	else:
+		
+		JsonManagerMenu.BrowseContent(JsonManagerMenu,current_item)
+
+	
+
+bpy.types.Object.title = bpy.props.StringProperty(name="", default = "object_name", update = update)
 
 bpy.types.Object.section_type = bpy.props.StringProperty(name="", default = "")
 
@@ -120,23 +139,14 @@ bpy.types.Object.compatiblity = \
 
 paths = bpy.utils.script_paths("addons")
 
-# libraryPath = 'assets'
-# for path in paths:
-#	 libraryPath = os.path.join(path, "add_mesh_asset_flinger")
-#	 if os.path.exists(libraryPath):
-#		 break
 
-# if not os.path.exists(libraryPath):
-#	 raise NameError('Did not find assets path from ' + libraryPath)
-
-# libraryIconsPath = os.path.join(libraryPath, "icons")
-# libraryDefaultModelsPath = os.path.join(libraryPath, "assets")
 
 @persistent
 def load_handler(dummy):
-    print("Load Handler:", bpy.data.filepath)
 
-bpy.app.handlers.load_post.append(load_handler)
+	bpy.app.handlers.load_post.append(load_handler)
+
+
 
 
 def get_objects_material_color(ob):
@@ -190,15 +200,11 @@ def dump3(ob,ind,s_type):
 	return  {'name': ob.name, 'user_image':ob.user_image, 'default': default, 'color':color, 'title':title_text, 'exceptions':{"objects":tuple(names),'materials':tuple(materials)}, 'img': imgpath}
 
 def dump(ob):
-	#['foo', {'bar': ('baz', None, 1.0, 2)}]
-	#section_items = [c for c in bpy.data.objects if(c.name.split('_')[0].split('-')[0] == "S" and len(c.name.split('_')[0].split('-')) > 1 and c.name.split('_')[0].split('-')[1] == ob.name.split("_")[1] and len(c.name.split(".")) < 2) ]
 	
 	section_items = [c for c in bpy.data.objects if(c.section == ob.name and len(c.name.split('.')) < 2)  ]
 
-	#section_items = [c for c in bpy.data.objects if(c.name.split('_')[0].split('-')[0] == "S" and len(c.name.split('_')[0].split('-')) > 1 and c.name.split('_')[0].split('-')[1] == s.name.split("_")[1] and c.name != bpy.context.scene.Item) ]
 
 
-	print('section_items',section_items,tuple(section_items))
 	s_type = ""
 	
 	material_name = ""
@@ -373,7 +379,7 @@ def drawMenuItem(item, x, y, width, height):
 
 	if('empty' in item):
 		bgl.glColor4f(1,1,1,1)
-		blf.position(font_id, x + iconMarginX  + textMarginX, y + iconHeight * 0.5 - 0.25 * textHeight, 0)
+		blf.position(font_id, x + iconWidth/3 + iconMarginX  + textMarginX, y + iconHeight * 0.5 - 0.25 * textHeight, 0)
 		blf.size(font_id, textHeight, textWidth)
 		if('title' in item):
 			if(item['title'] == 'object_name'):
@@ -726,7 +732,7 @@ class ScreenShotClass(bpy.types.Operator):
 				si.hide_render = True
 		ob.select = True
 		ob.hide = False
-		print('duplicate',ob)
+		
 		bpy.ops.object.duplicate()
 		obj_copy = bpy.context.selected_objects[0]
 		bpy.context.scene.objects.active = obj_copy
@@ -756,8 +762,7 @@ class ScreenShotClass(bpy.types.Operator):
 
 		# base = bpy.data.objects['base']
 
-		print('section.is_material',section.is_material)
-		print("base.hide_render",base.hide_render)
+		
 		if(section.is_material):
 			obj_copy.location = (0,0,2.5)
 			camera.location = camera_empty_material.location
@@ -801,6 +806,9 @@ class ScreenShotClass(bpy.types.Operator):
 		bpy.ops.object.delete()
 
 	def execute(self, context):
+		for o in bpy.data.objects:
+			o.select = False
+
 		sections = [c for c in bpy.data.objects if(c.name.split('_')[0] == "Section" and not c.is_material)]
 		for s in sections:
 			section_items = [c for c in bpy.data.objects if(c.section == s.name and len(c.name.split('.')) < 2)  ]	
@@ -910,7 +918,7 @@ class ExportClassGibrid(bpy.types.Operator):
 			#section_items_objects = [c for c in bpy.data.objects if(c.name.split('_')[0].split('-')[0] == "S" and len(c.name.split('_')[0].split('-')) > 1 and c.name.split('_')[0].split('-')[1] == o.name.split("_")[1] and len(c.name.split(".")) < 2) ]
 			section_items_objects = [c for c in bpy.data.objects if(c.section == o.name and len(c.name.split(".")) < 2)  ]	
 
-			print('section_items_objects',section_items_objects)
+			
 			for so in section_items_objects:	
 				if(len(so.name.split('product_')) > 1):		
 					so.name = so.name.split('product_')[1]		
@@ -1071,11 +1079,7 @@ class ExportClassGibridWantenger(bpy.types.Operator):
 					bpy.ops.object.duplicate()
 					
 					obj_copy = bpy.context.selected_objects[0]
-					# print('obj_copy.name',obj_copy.name)
-					# print('obj_copy.name',len(obj_copy.name.split('product_')[1]))
 					
-					# if(len(obj_copy.name.split('product_')) > 1):		
-					# 	obj_copy.name = obj_copy.name.split('product_')[1]
 					obj_copy.name = so.name+'.'+mat_source.name
 					obj_copy.data.materials[0] = mat_source.copy()
 					obj_copy.data.materials[0].name = so.name+'.'+mat_source.name
@@ -1103,39 +1107,28 @@ class ExportClassGibridWantenger(bpy.types.Operator):
 				area.spaces[0].text = text	
 
 		bpy.ops.export_scene.b4w_json('INVOKE_DEFAULT')		
-		print('export_filepath',dir(exporter))
+		
 
-		print('export_filepath',exporter._export_filepath)
+		
 
 
 		for tx in bpy.data.texts:
-			#if(tx.name == "index.html"):
+			
 			if(tx.name == "conf.json"):
 				string = tx.as_string()
-				if(len(exporter._export_filepath.split('/')) > 1):
-					path = exporter._export_filepath.rsplit('/',1)[0]
-					print('path',path)
-					text_file = codecs.open(path+'/'+tx.name, mode="w", encoding="utf-8")
-					#text_file = open(path+"/tmp/configurator/"+tx.name, mode ="w", encoding = "utf-8")
+				if(exporter._export_filepath != None):
+					if(len(exporter._export_filepath.split('/')) > 1):
+						path = exporter._export_filepath.rsplit('/',1)[0]
+						
+						text_file = codecs.open(path+'/'+tx.name, mode="w", encoding="utf-8")
 
-					string.encode('UTF-8')
-					text_file.write(string)
-					text_file.close()
+						string.encode('UTF-8')
+						text_file.write(string)
+						text_file.close()
 
 
 
-		# if(ob.hide == True):
-		# 	ob.hide = False
-		# 	ob.select = True
-		# 	bpy.context.scene.objects.active = ob
-		# 	bpy.ops.object.duplicate()
-		# 	ob.hide == True
-		# 	obj_copy = bpy.context.selected_objects[0]
-
-		# 	obj_copy.name = ob.name+'.'+mat_source.name
-		# 	obj_copy.data.materials[0] = mat_source.copy()
-		# 	obj_copy.data.materials[0].name = ob.name+'.'+mat_source.name
-		# 	obj_copy.hide = True		
+		
 
 		return {'FINISHED'} 		
 
@@ -1167,6 +1160,22 @@ class RenameSection(bpy.types.Operator):
 
 		return {'FINISHED'} 
 
+class RenameObject(bpy.types.Operator):
+	bl_idname = "object.rename_object"
+	bl_label = "RenameObject"
+
+	def execute(self, context):
+		for c in bpy.data.objects:
+			c.select  = False
+
+		for c in bpy.data.objects:
+			if(c.name == bpy.context.scene.Item):
+				c.select = True
+
+		bpy.ops.object.title_settings('INVOKE_DEFAULT')
+
+		return {'FINISHED'}		
+
 class DelSection(bpy.types.Operator):
 	bl_idname = "object.del_section"
 	bl_label = "DelSection"
@@ -1186,7 +1195,6 @@ class DelSection(bpy.types.Operator):
 		
 		newS = [s for s in current_dir_content if(s['text'] != del_section.name)]
 
-		print('JsonManagerMenu.current_dir_content',current_dir_content)
 		current_dir_content = newS
 
 		delta = 0
@@ -1230,12 +1238,10 @@ class OpenObjectSettings(bpy.types.Operator):
 		text_string['empty'] = True
 
 		current_dir_content.append(text_string) 
-		print('text_string',text_string)	
 
 		sections = [ o for o in bpy.data.objects if (o.name.split('_')[0] == 'Section')]
 		#objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S')]
 
-		print('sections',sections)
 		sections.sort(key=SortSections)
 
 		for num,o in enumerate(sections):
@@ -1258,25 +1264,7 @@ class OpenObjectSettings(bpy.types.Operator):
 			current_dir_content.append(item) 		
 
 		current_item = {}
-		# for c in bpy.data.objects: object_settings
-		# 	c.select  = False
-
-		# for c in bpy.data.objects:
-		# 	if(c.name == bpy.context.scene.Item):
-		# 		del_section = c
-		# 		del_section.select = True
-		# 		bpy.ops.object.delete()
-
-		# sections = [c for c in bpy.data.objects if(c.name.split('_')[0] == "Section")]
 		
-		# newS = [s for s in current_dir_content if(s['text'] != del_section.name)]
-
-		# print('JsonManagerMenu.current_dir_content',current_dir_content)
-		# current_dir_content = newS
-
-		# delta = 0
-
-		# #JsonManagerMenu.del_section(JsonManagerMenu)
 	
 		return {'FINISHED'} 		
 
@@ -1382,15 +1370,15 @@ class MoveSection(bpy.types.Operator):
 				#else:
 					#s.order	+= 1
 			
-			#tmp = sections[number -1 ].order.copy()
+			
 			sections[number -1 ].order,sections[number].order = sections[number].order,sections[number -1 ].order
-			#sections[number].order = tmp
+			
 
-			#sections = [c for c in bpy.data.objects if(c.name.split('_')[0] == "Section")]
+			
 		
 			sections.sort(key=SortSections)
 
-			print('sections',[ s.order for s in  sections])
+			
 			add = current_dir_content[-1]
 			current_dir_content = []
 			for s in sections:
@@ -1422,7 +1410,7 @@ class MoveSection(bpy.types.Operator):
 					s.order += 1 	
 			sections.sort(key=SortSections)
 
-			print('sections',[ s.order for s in  sections])
+			
 			add = current_dir_content[-1]
 			current_dir_content = []
 			for s in sections:
@@ -1454,7 +1442,7 @@ class MoveSection(bpy.types.Operator):
 					s.order -= 1 		
 			sections.sort(key=SortSections)
 
-			print('sections',[ s.order for s in  sections])
+			
 			add = current_dir_content[-1]
 			current_dir_content = []
 			for s in sections:
@@ -1487,16 +1475,13 @@ class MoveSection(bpy.types.Operator):
 				#else:
 					#s.order	+= 1
 	
-			# print('sections',[ s.title for s in  sections])		
-			# print('number',number)
-			# print('sections',sections[number].title,sections[number].order)
-			# print('sections',sections[number+1].title,sections[number].order)
+			
 			sections[number +1 ].order,sections[number].order = sections[number].order,sections[number +1 ].order
 			#sections = [c for c in bpy.data.objects if(c.name.split('_')[0] == "Section")]
 		
 			sections.sort(key=SortSections)
 
-			print('sections',[ str(s.order)+" _"+s.title for s in  sections])
+			
 			add = current_dir_content[-1]
 			current_dir_content = []
 			for s in sections:
@@ -1522,7 +1507,7 @@ class MoveSection(bpy.types.Operator):
 		return {'FINISHED'} 
 
 class SectionsButton(bpy.types.Panel):
-	bl_label = "Json Editor"
+	bl_label = "Template Product"
 	bl_space_type = "VIEW_3D"
 	bl_region_type = "TOOLS"
 	bl_category = "Template Product"
@@ -1537,15 +1522,8 @@ class SectionsButton(bpy.types.Panel):
  #	)
 	def draw(self, context):
 		col = self.layout.column(align = True)
-		if(len(bpy.context.selected_objects)== 1):
-			#bpy.context.scene.section_name = '1111'
-			# print('bpy.context.scene.section_name',bpy.context.selected_objects[0].name)
-			col.prop(bpy.context.selected_objects[0], "title")
-			# col.prop(bpy.context.selected_objects[0], "section_type")
-
 			
-		#col.operator(NewSection.bl_idname,icon = "ZOOMIN",  text = "New")
-		#col.operator(LoadZip.bl_idname,icon = "IMAGE_COL",  text = "Load elements pictures")	
+		
 
 		col.operator(LoadObject.bl_idname,icon = "APPEND_BLEND",  text = "Append new element")		
 		col.operator(ClearScene.bl_idname,icon = "VISIBLE_IPO_ON",  text = "Hide all elements")
@@ -1624,6 +1602,7 @@ class ObjectSettings(bpy.types.Operator):
 		# self.layout.alignment = "LEFT"	
 		col.operator(OpenObjectSettings.bl_idname,icon = "SCRIPTPLUGINS",  text = "Settings")
 		col.operator(UploadImage.bl_idname,icon = "IMAGE_COL",  text = "Upload Image")
+		col.operator(RenameObject.bl_idname,icon = "GREASEPENCIL",  text = "Rename")
 		# col.operator(MoveSection.bl_idname,icon = "TRIA_UP",  text = "Move Up").move_type = "UP"
 		# col.operator(MoveSection.bl_idname,icon = "TRIA_DOWN",  text = "Move Down").move_type = "DOWN"
 		# col.operator(RenameSection.bl_idname,icon = "GREASEPENCIL",  text = "Rename")
@@ -1656,12 +1635,10 @@ class SelectSectrionIn(bpy.types.Operator):
 		if(len(bpy.context.selected_objects) == 1):
 			ob = bpy.context.selected_objects[0]
 
-			#section_items = [c for c in bpy.data.objects if(c.name.split('_')[0].split('-')[0] == "S" and len(c.name.split('_')[0].split('-')) > 1 and c.name.split('_')[0].split('-')[1] == self.section_name.split("_")[1] and len(c.name.split(".")) < 2) ]
-			#i = len(section_items) + 1
-			#ob.name = "S-"+self.section_name.split('_')[1] + "_section-"+str(i)
+			
 
 			ob.section = self.section_name
-		print('section_name',self.section_name)
+		
 		pass
 		return {'FINISHED'}
 
@@ -1675,10 +1652,7 @@ class ClearSection(bpy.types.Operator):
 		if(len(bpy.context.selected_objects) == 1):
 			ob = bpy.context.selected_objects[0]
 
-			#section_items = [c for c in bpy.data.objects if(c.name.split('_')[0].split('-')[0] == "S" and len(c.name.split('_')[0].split('-')) > 1 and c.name.split('_')[0].split('-')[1] == self.section_name.split("_")[1] and len(c.name.split(".")) < 2) ]
-			#i = len(section_items) + 1
-			#ob.name = "S-"+self.section_name.split('_')[1] + "_section-"+str(i)
-
+			
 			ob.section = ""
 		
 		return {'FINISHED'}
@@ -1736,6 +1710,7 @@ class TitleSettings(bpy.types.Operator):
 
 	tmp_mas = []
 	def execute(self, context):
+		print('TitleSettings','TitleSettings')
 		pass
 	def draw(self, context):
 		col = self.layout.column(align = True)	
@@ -1773,8 +1748,7 @@ class DialogOperator(bpy.types.Operator):
 						dp.name = o.name	
 				del tmp_mas[:]		
 		
-		print('obj.compatiblity_mas',[c.name for c in obj.compatiblity_mas])
-		print('obj.not_compatiblity_mas',[c.name for c in obj.not_compatiblity_mas])
+		
 						
 		print('CLOSE')
 		return {'FINISHED'}
@@ -1847,7 +1821,7 @@ class JsonManagerMenu(bpy.types.Operator):
 		sections = [ o for o in bpy.data.objects if (o.name.split('_')[0] == 'Section')]
 		#objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S')]
 
-		print('sections',sections)
+		
 		sections.sort(key=SortSections)
 
 		for num,o in enumerate(sections):
@@ -1924,20 +1898,18 @@ class JsonManagerMenu(bpy.types.Operator):
 				self.last = event.mouse_region_x
 				scrollOn = 'false'				
 				dlt = self.last - self.first
-				print('dltdltdltdltdltdlt',dlt)
+			
 				(selected,Type) = getClicked(self, context)
 
-				print('selected',selected)
-				print('Type',Type)
+				
 				
 				if(Type == 'scroll'):	
-					print('111111111111111')
-					print('BBB',delta)	
+					
+					
 			# 		pass
 			# if(dlt < 100 and dlt > -10):
 
-					print('self.first',self.first)
-					print('self.last',self.last)
+					
 
 					if(event.mouse_region_y > contentHeight- 45):
 						scrollPercent = 1
@@ -1970,8 +1942,7 @@ class JsonManagerMenu(bpy.types.Operator):
 				self.mouseY = event.mouse_region_y
 
 				(selected,Type) = getClicked(self, context)
-				print('selected',selected)
-				print('Type',Type)
+				
 				
 				if selected == None:
 					bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
@@ -1993,8 +1964,7 @@ class JsonManagerMenu(bpy.types.Operator):
 							bpy.ops.object.section_operator('INVOKE_DEFAULT')
 						# self.redraw()	
 				elif(Type == 'scroll'):	
-					print('111111111111111')
-					print('BBB',delta)	
+					
 					pass
 				
 							
@@ -2011,7 +1981,7 @@ class JsonManagerMenu(bpy.types.Operator):
 					
 					pass	
 				else:		
-					print('2222222222222222')
+					
 					if selected['isFolder'] == True:
 						if selected['Addbutton'] == True:
 							self.add_section()
@@ -2019,6 +1989,7 @@ class JsonManagerMenu(bpy.types.Operator):
 							delta = 0
 							self.mouseY = 0 + context.area.regions[4].height #- 35
 							# self.tree_index = os.path.normpath(os.path.join(self.tree_index, selected['text']))
+							
 							self.browse_assets(selected)
 
 					else:
@@ -2047,7 +2018,7 @@ class JsonManagerMenu(bpy.types.Operator):
 				if(contentWidthArea > 700):
 					rows = 1
 					contentWidthArea = 700			
-			# print('MOVE',dlt)
+			
 			# contentWidthArea *= 2			
 
 		elif event.type in {'RIGHTMOUSE', 'ESC'}:
@@ -2108,7 +2079,7 @@ class JsonManagerMenu(bpy.types.Operator):
 
 	def add_item(self,item):
 		global current_dir_content
-		print('add item',item)
+		
 		name = item['Folder']
 		objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S' and o.name.split('_')[0].split('-')[1] == name.split('_')[1] and len(name.split('.')) < 2)]
 		
@@ -2133,7 +2104,7 @@ class JsonManagerMenu(bpy.types.Operator):
 		new_obj.b4w_dynamic_geometry = True
 		Upitem = [c for c in current_dir_content if(c['text'] == name)][0]	
 
-		print('Upitem',Upitem)
+		
 		Upitem['isUPFolder'] = False
 		#Upitem['is_material'] = item.is_material == True
 		self.browse_assets(Upitem)	
@@ -2147,7 +2118,7 @@ class JsonManagerMenu(bpy.types.Operator):
 		
 		new_obj.name = "Section_"+str(l+1)
 
-		print('self1',self)
+		
 
 		item = {}
 		item['text'] = new_obj.name
@@ -2183,17 +2154,7 @@ class JsonManagerMenu(bpy.types.Operator):
 		redrawFlag = True
 			
 
-		# bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
-				
 		
-
-
-		# sections = [c for c in bpy.data.objects if(c.name.split('_')[0] == "Section")]
-		
-		# newS = [s for s in current_dir_content if(s['text'] != del_section.name)]
-
-		# print('current_dir_content',current_dir_content)
-		# current_dir_content = newS
 		
 	def find_obj_image(self,item):
 		image = bpy.data.images["nothumbnail.png"]
@@ -2204,7 +2165,7 @@ class JsonManagerMenu(bpy.types.Operator):
 
 	def check_accept(self,obj,name):
 		res = bpy.data.images["folder.png"]
-		print('check_accept',obj,name)
+		
 		for o in bpy.data.objects:
 			if(o.name == name):
 				if(hasattr(o,'not_compatiblity_mas')):
@@ -2218,15 +2179,15 @@ class JsonManagerMenu(bpy.types.Operator):
 		
 		res = True
 		list_check = []
-		print('CHECKsections',name,folder_name)
+		
 		for o in bpy.data.objects:
 			if(o.name == name):
 				sections = [ sec for sec in bpy.data.objects if (o.name.split('_')[0] == 'Section')]
 				for s in sections:
-					print('CHECKsections',s,folder_name)
+					
 					if(s.name == folder_name):
 						objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S' and o.name.split('_')[0].split('-')[1] == folder_name.split('_')[1] and len(o.name.split('.')) < 2)]
-						print('CHECK',objs)
+						
 						for obj in objs:
 							if(obj.name in o.not_compatiblity_mas):
 								res = list_check.append(True)
@@ -2235,12 +2196,8 @@ class JsonManagerMenu(bpy.types.Operator):
 						list1 = res
 						list2 = []    
 						[list2.append(i) for i in list1 if not i in list2]    		
-						print('list2',list2)			
-				# if(hasattr(o,'not_compatiblity_mas')):
-				# 	if(obj.name in o.not_compatiblity_mas):
-				# 		res = bpy.data.images["disAccept.png"]
-				# 	else:
-				# 		res = bpy.data.images["Accept.png"]
+								
+				
 		return bpy.data.images["Accept.png"]
 			
 	def check_item(self,item):
@@ -2252,14 +2209,8 @@ class JsonManagerMenu(bpy.types.Operator):
 					for o in bpy.data.objects:
 						if(o.name == name):
 							mat_source = o.data.materials[0]
-							print('mat_source',mat_source)
-							# for o in bpy.data.objects:
-							# 	o.select = False
-							# 	if(o.name == item["settings_item"]["text"]+'.'+mat_source.name):
-							# 		if(o.hide == True):
-							# 			o.hide = False
-							# 		o.select = True
-							# 		bpy.ops.object.delete()
+							
+							
 							for ob in bpy.data.objects:	
 								if(ob.name == item["settings_item"]["text"]):
 									if(item['accept'] == bpy.data.images["disAccept.png"]):
@@ -2280,7 +2231,7 @@ class JsonManagerMenu(bpy.types.Operator):
 
 	def toggle_accept(self,item):
 
-		print('TOGGLE',item)
+		
 
 		
 
@@ -2289,12 +2240,12 @@ class JsonManagerMenu(bpy.types.Operator):
 				item['accept'] = bpy.data.images["Accept.png"]
 				for o in bpy.data.objects:
 					if(o.name == item["settings_item"]['text']):
-						print('TOGGLEo.not_compatiblity_mas', [ o.name for o in o.not_compatiblity_mas], item["settings_item"]['text'],item['text'] )
+						
 						if(hasattr(o,'not_compatiblity_mas')):
 							for ind,c in enumerate(o.not_compatiblity_mas):
 								if(c.name == item['text']):
 									o.not_compatiblity_mas.remove(ind)
-							#o.compatiblity_mas = [c for c in o.compatiblity_mas if(c.name != item["settings_item"]['text'])]
+							
 			else:
 				item['accept'] = bpy.data.images["disAccept.png"]		
 				for o in bpy.data.objects:
@@ -2309,7 +2260,10 @@ class JsonManagerMenu(bpy.types.Operator):
 		self.check_item(item)					
 
 	def browse_assets(self, selected):
-		global current_dir_content
+		global current_dir_content,current_folder
+
+
+		current_folder = selected
 
 		name = selected['text']
 
@@ -2322,15 +2276,14 @@ class JsonManagerMenu(bpy.types.Operator):
 		else:	
 
 
-			#objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S' and o.name.split('_')[0].split('-')[1] == name.split('_')[1] and len(o.name.split('.')) < 2)]
+			
 			objs = [c for c in bpy.data.objects if(c.section == name and len(c.name.split('.')) < 2)  ]	
 			if('settings' in selected):
 				objs = [o for o in objs if(o.name != selected['settings_item']['text'])]
 
 			
 			up_folder = {}
-			#iconFile = os.path.join(libraryIconsPath, "folder.png")
-			#up_folder['icon'] = bpy.data.images.load(filepath = iconFile)
+			
 			up_folder['icon'] = bpy.data.images["Up.png"]
 			
 			up_folder['text'] = name
@@ -2350,15 +2303,28 @@ class JsonManagerMenu(bpy.types.Operator):
 			up_folder['subItems'] = []
 
 			if('settings' in selected):
-				#up_folder['accept'] = self.check_accept_folder(selected['text'],selected['settings_item']['text'])
+				
 				up_folder['settings_item'] = selected['settings_item']
 				up_folder['settings'] = True
-				current_dir_content.append(selected['settings_item'])   
+				current_dir_content.append(selected['settings_item']) 
+
+				text_string = {}
+				text_string['text'] = "Select compatible elements"
+				text_string['title'] = "Select compatible elements"
+				text_string['isFolder'] = False
+				text_string['isUPFolder'] = False
+				text_string['is_material'] = False
+				text_string['Addbutton'] = False
+				text_string['selected'] = False
+				text_string['settings'] = False
+				text_string['empty'] = True
+
+				current_dir_content.append(text_string)   
 
 			#up_folder['index'] = self.tree_index
 			current_dir_content.append(up_folder)	 	 
 
-			# print('item',item)
+		
 			for o in objs:
 				item = {}
 				item['text'] = o.name
@@ -2368,21 +2334,19 @@ class JsonManagerMenu(bpy.types.Operator):
 				item['isUPFolder'] = False
 				item['Addbutton'] = False
 				item['selected'] = o.hide != True
-				# iconFile = os.path.join(libraryIconsPath, "nothumbnail.png")
-				# item['icon'] = bpy.data.images.load(filepath = iconFile)
+				
 				if('is_material' in selected):
 					if(selected['is_material']):
 						if(item['user_image']):
-							item['icon'] = self.find_obj_image(item)
+							item['icon'] = JsonManagerMenu.find_obj_image(JsonManagerMenu,item)
 						else:		
 							item['icon'] = bpy.data.images["nothumbnail.png"]
 					else:
-						item['icon'] = self.find_obj_image(item)			
+						item['icon'] = JsonManagerMenu.find_obj_image(JsonManagerMenu,item)			
 				else:	
-					item['icon'] = self.find_obj_image(item)
+					item['icon'] = JsonManagerMenu.find_obj_image(JsonManagerMenu,item)
 
-				# iconMenu = os.path.join(libraryIconsPath, "m.png")
-				# item['menu'] = bpy.data.images.load(filepath = iconMenu)
+				
 				item['menu'] = bpy.data.images["m.png"]
 
 				if('settings' in selected):
@@ -2416,14 +2380,25 @@ class JsonManagerMenu(bpy.types.Operator):
 		current_dir_content = []
 		
 		sections = [ o for o in bpy.data.objects if (o.name.split('_')[0] == 'Section')]
-		#objs = [ o for o in bpy.data.objects if (o.name.split('-')[0] == 'S')]
-
-		print('sections',sections)
+		
+		
 		sections.sort(key=SortSections)
 
 		if(selected):
 			if('settings' in selected):
-					current_dir_content.append(selected['settings_item'])   
+					current_dir_content.append(selected['settings_item'])
+					text_string = {}
+					text_string['text'] = "Select compatible elements"
+					text_string['title'] = "Select compatible elements"
+					text_string['isFolder'] = False
+					text_string['isUPFolder'] = False
+					text_string['is_material'] = False
+					text_string['Addbutton'] = False
+					text_string['selected'] = False
+					text_string['settings'] = False
+					text_string['empty'] = True
+
+					current_dir_content.append(text_string)      
 
 		for num,o in enumerate(sections):
 			item = {}
@@ -2448,6 +2423,7 @@ class JsonManagerMenu(bpy.types.Operator):
 				if('settings' in selected):
 					item['settings'] = True
 					item['settings_item'] = selected['settings_item']
+
 					
 			current_dir_content.append(item) 
 
@@ -2483,16 +2459,24 @@ class JsonManagerMenu(bpy.types.Operator):
 			current_dir_content = []
 			self.imageList = []
 
-			print('INIT MAGIC')
-			# self.buildAssetTree(self.mainItem, libraryDefaultModelsPath)
-			# self.browse_assets(libraryDefaultModelsPath)
+			
+			(y,v,m) = blend4web.bl_info["version"]
+			print('11111',y,v,m)
+
+
+			if(y == 17 and v >= 4):
+				pass
+			else:
+				bpy.ops.error.message('INVOKE_DEFAULT', 
+				type = "Message",
+				message = "This template requires blender 2.78 and Blend4Web 16.10")   	
+
 			self.BrowseContent(None)
 			self.activeItem = self.mainItem
 
-			# the arguments we pass the the callback
+			
 			args = (self, context)
-			# Add the region OpenGL drawing callback
-			# draw in view space with 'POST_VIEW' and 'PRE_VIEW'
+			
 			self._handle = bpy.types.SpaceView3D.draw_handler_add(drawCallbackMenu, args, 'WINDOW', 'POST_PIXEL')
 
 			context.window_manager.modal_handler_add(self)
@@ -2526,23 +2510,13 @@ def replace_shortkey( old_op_name, new_op_name) :
         while item :
 
                 props = item.properties
-                print('props',props)
+                
 
-                # extend    = props.extend.real
-                # deselect  = props.deselect.real
-                # toggle    = props.toggle.real
-                # center    = props.center.real
-                # enumerate = props.enumerate.real
-                # object    = props.object.real
+               
 
                 item.idname = new_op_name
 
-                # props.extend    = extend 
-                # props.deselect  = deselect
-                # props.toggle    = toggle
-                # props.center    = center
-                # props.enumerate = enumerate
-                # props.object    = object
+                
 
                 item = items.get( old_op_name, None)
 
@@ -2572,9 +2546,7 @@ class SelectionOperatorGibrid(bpy.types.Operator):
 		#select the object
 		bpy.ops.object.section_in_operator('INVOKE_DEFAULT')
 		bpy.ops.view3d.select( location=(self.location[0] , self.location[1] ))
-		#change the property
-		#print('select 111',bpy.context.selected_objects[0].name,bpy.context.selected_objects[0].name.split("_"),bpy.context.selected_objects[0].name.split("_")[1])
-
+		
 
 
 		return {'FINISHED'}
@@ -2610,11 +2582,11 @@ def write_image(context, filepath):
 			obj = o
 			obj.user_image = True
 
-	print('obj.user_image',obj.user_image)
+	
 	return {'FINISHED'}
 
 class ImportImage(Operator, ImportHelper):
-    """This appears in the tooltip of the operator and in the generated docs"""
+   
     bl_idname = "import_image.data"  # important since its how bpy.ops.import_test.some_data is constructed
     bl_label = "ImportImage"
 
@@ -2624,6 +2596,85 @@ class ImportImage(Operator, ImportHelper):
     def execute(self, context):
         return write_image(context, self.filepath)
 
+class GithubClass(bpy.types.Operator):
+    bl_idname = "object.open_example"
+    bl_label = "GithubClass"
+    def execute(self, context):
+        bpy.ops.wm.url_open(url='https://github.com/TriumphLLC/3DSlides')
+        return {'FINISHED'}       
+
+class Blend4webClass(bpy.types.Operator):
+    bl_idname = "object.blend4web_site"
+    bl_label = "Blend4webClass"
+    def execute(self, context):
+        bpy.ops.wm.url_open(url='https://blend4web.com/')
+        return {'FINISHED'} 
+
+
+class LicenseClass(bpy.types.Operator):
+    bl_idname = "object.show_license"
+    bl_label = "LicenseClass"
+    def execute(self, context):
+        text_string = " Blend4web template 'Product' is developed by Truimph LLC company ©,\n distributed under the MIT open source license \n and available on https://github.com/TriumphLLC/3DSlides"
+        text_string += "\n This template requires blender 2.78 and Blend4Web 16.10"
+        for tx in bpy.data.texts:
+                if(tx.name == "license.txt"):
+                    tx.user_clear()
+                    bpy.data.texts.remove(tx)
+
+        bpy.ops.text.new()
+        text = bpy.data.texts[-1]
+        text.name = 'license.txt'
+
+      
+        text.write(text_string)
+
+        for area in bpy.context.screen.areas:
+            if area.type == 'TEXT_EDITOR':
+                area.spaces[0].text = text
+
+        return {'FINISHED'} 
+
+class GithubButton(bpy.types.Panel):
+    bl_label = "Docs"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "TOOLS"
+    bl_category = "Template Product"
+    
+    
+   
+    def draw(self, context):
+        layout = self.layout
+        row = self.layout.column(align=False)
+        split = row.split()
+        col = split.column(align=True)
+        row.alignment = 'LEFT'
+        col.operator(GithubClass.bl_idname, icon="INFO", text = "Open tutorial at Github")
+        col.operator(Blend4webClass.bl_idname, icon="INFO", text = "Blend4web site")
+        col.operator(LicenseClass.bl_idname, icon="INFO", text = "Blend4web template Product license")
+
+
+class MessageOperator(bpy.types.Operator):
+    bl_idname = "error.message"
+    bl_label = ""
+    type = StringProperty()
+    message = StringProperty()
+ 
+    def execute(self, context):
+        self.report({'INFO'}, self.message)
+        print(self.message)
+        return {'FINISHED'}
+ 
+    def invoke(self, context, event):
+        wm = context.window_manager
+        return wm.invoke_popup(self, width=550, height=300)
+ 
+    def draw(self, context):
+        self.layout.label("Error")
+        row = self.layout.row()
+       
+        row.label(self.message) 
+        row.operator("error.ok")
 
 def register():
 	bpy.utils.register_class(JsonManagerMenu)
@@ -2649,6 +2700,7 @@ def register():
 	bpy.utils.register_class(LoadObject)
 	bpy.utils.register_class(TitleSettings)
 	bpy.utils.register_class(RenameSection)
+	bpy.utils.register_class(RenameObject)
 	
 	bpy.utils.register_class(SelectionOperatorGibrid) 
 	bpy.utils.register_class(SectionInSettings) 
@@ -2659,7 +2711,11 @@ def register():
 	bpy.utils.register_class(OpenObjectSettings) 	
 	bpy.utils.register_class(LoadZip) 
 	bpy.utils.register_class(UploadImage) 	
-	  	
+	bpy.utils.register_class(GithubButton) 	
+	bpy.utils.register_class(LicenseClass) 	
+	bpy.utils.register_class(Blend4webClass) 	
+	bpy.utils.register_class(GithubClass) 	
+	bpy.utils.register_class(MessageOperator)   	
 	
 	# handle the keymap
 	wm = bpy.context.window_manager
@@ -2694,6 +2750,7 @@ def unregister():
 	#bpy.utils.unregister_class(StoreHandler)
 	bpy.utils.unregister_class(PreviewClass)
 	bpy.utils.unregister_class(RenameSection)
+	bpy.utils.unregister_class(RenameObject)
 
 	
 
@@ -2707,7 +2764,13 @@ def unregister():
 	bpy.utils.unregister_class(ImportImage) 
 	bpy.utils.unregister_class(OpenObjectSettings) 		
 	bpy.utils.unregister_class(LoadZip) 	
-	bpy.utils.unregister_class(UploadImage) 	
+	bpy.utils.unregister_class(UploadImage) 
+
+	bpy.utils.unregister_class(GithubButton) 	
+	bpy.utils.unregister_class(LicenseClass) 	
+	bpy.utils.unregister_class(Blend4webClass) 	
+	bpy.utils.unregister_class(GithubClass) 	
+	bpy.utils.unregister_class(MessageOperator)   	
 
 	# handle the keymap
 	for km, kmi in addon_keymaps:
